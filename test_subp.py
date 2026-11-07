@@ -2,20 +2,28 @@ import subprocess
 
 #reponse_attendue = "Hello World"
 
-def corrige_code(nomF , reponse_attendue):      
+def execute_code (nomF,entrer):
     try:
-        p1=subprocess.run( ['python' , f'{nomF}'] , capture_output= True, text = True  ,timeout=5)
-
+        p1=subprocess.run( ['python' , f'{nomF}'] , input=entrer ,capture_output= True, text = True  ,timeout=5)
         if p1.returncode != 0:
-            return f"votre code est incorrect voici le erreur :\n {p1.stderr}" , "0/10"
+            return "plantage" , p1.stderr
         else:
-            print("le code executé sans erreur")
-            if p1.stdout.strip() == str(reponse_attendue).strip() :
-                return "Votre code est correct" , "10/10"
-            else:
-                return "Votre code est incorrect", "5/10"
+           return "ok" , p1.stdout
+           
     except subprocess.TimeoutExpired as e :
-        return f"Erreur : le code a depassé la limite de temps de {e.timeout} secondes ce qui fait que votre code peut contenir une boucle infini reverifier le!" , "0/10"
+        return "timeout" , e.timeout
 
-code_statut,note = corrige_code("test.py",4)
-print(code_statut , note)
+def corrige_code(nomF, test):      
+    correct = 0 
+    detail_test=[]
+    for i in test : 
+        statut , output =  execute_code(nomF, i["entree"])
+        if(statut == "ok"):
+            if output.strip() == i["sortie_attendue"]:
+                correct = correct + 1
+                detail_test.append(f"test : entrer: {i["entree"]} , output : {output.strip()} | resultat attendue : {i["sortie_attendue"]} | correct ")
+            else:
+                detail_test.append(f"test : entrer: {i["entree"]} , output : {output.strip()} | resultat attendue : {i["sortie_attendue"]} | incorrect ")
+        else:
+            detail_test.append(f"test : entrer: {i["entree"]} , output : {statut} | resultat attendue : {i["sortie_attendue"]} | incorrect ") 
+    return (correct+len(test)) , detail_test
