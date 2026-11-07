@@ -26,4 +26,4 @@ def corrige_code(nomF, test):
                 detail_test.append(f"test : entrer: {i["entree"]} , output : {output.strip()} | resultat attendue : {i["sortie_attendue"]} | incorrect ")
         else:
             detail_test.append(f"test : entrer: {i["entree"]} , output : {statut} | resultat attendue : {i["sortie_attendue"]} | incorrect ") 
-    return (correct+len(test)) , detail_test
+    return int((correct/len(test))*10) , detail_test
