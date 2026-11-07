@@ -1,0 +1,21 @@
+{
+    "id":"somme",
+    "tests": [
+        {
+            "entree": "3 5\n",
+            "sortie_attendue": "8"
+          },
+          {
+            "entree": "0 0\n",
+            "sortie_attendue": "0"
+          },
+          {
+            "entree": "-4 10\n",
+            "sortie_attendue": "6"
+          },
+          {
+            "entree": "100 250\n",
+            "sortie_attendue": "350"
+          }
+    ]
+}

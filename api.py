@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 import test_subp as test
+import json
 app = FastAPI()
 
 @app.get("/")
@@ -11,12 +12,14 @@ def root():
 
 @app.post("/correction")
 
-def lancer_correction():
-    code_statut,note=test.corrige_code("test.py",4)
+def lancer_correction(nomF , id):
+    with open(f"{id}.json" ,encoding="utf-8") as f :
+        exercice = json.load(f)
+    note,code_statut=test.corrige_code(nomF,exercice["tests"])
     
     return{
         "statut": code_statut,
-        "note" : note
+        "note" : f"{note}/10" 
     }
 
 
