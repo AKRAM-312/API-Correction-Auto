@@ -1,7 +1,5 @@
 import subprocess
 
-#reponse_attendue = "Hello World"
-
 def execute_code (nomF,entrer):
     try:
         p1=subprocess.run( ['python' , f'{nomF}'] , input=entrer ,capture_output= True, text = True  ,timeout=5)
@@ -25,5 +23,5 @@ def corrige_code(nomF, test):
             else:
                 detail_test.append(f"test : entrer: {i["entree"]} , output : {output.strip()} | resultat attendue : {i["sortie_attendue"]} | incorrect ")
         else:
-            detail_test.append(f"test : entrer: {i["entree"]} , output : {statut} | resultat attendue : {i["sortie_attendue"]} | incorrect ") 
+            detail_test.append(f"test : entrer: {i["entree"]} , output : {output.strip()} | resultat attendue : {i["sortie_attendue"]} | incorrect ") 
     return int((correct/len(test))*10) , detail_test
